@@ -1,4 +1,4 @@
-import { PrimaryEntity } from "models/primaryEntity.model";
+import { PrimaryEntity } from "../models/primaryEntity.model";
 
 export function getPrimaryEntitiesByUser(user: string){
     return PrimaryEntity.find({

@@ -18,8 +18,8 @@ print("[INFO] Found {0} Faces.".format(len(faces)))
 
 index = 0
 for (x, y, w, h) in faces:
-    cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    # cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
     roi_color = image[y:y + h, x:x + w]
     print("[INFO] Object found. Saving locally.")
-    cv2.imwrite('faces/' + str(index) + 'faces.jpg', roi_color)
+    cv2.imwrite('compareFaces/faces/' + str(index) + 'faces.jpg', roi_color)
     index+=1

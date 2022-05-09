@@ -3,8 +3,8 @@ import { Request, Response } from "express";
 import { responseMiddleware } from "../responseMiddleware";
 import { getPrimaryEntitiesByUser } from "../services/primaryEntity.service";
 
-@Controller('entity')
-export class EntityController {
+@Controller('primary-entity')
+export class PrimaryEntityController {
 
     @Get('')
     async getPrimaryEntities(req: Request, res: Response){

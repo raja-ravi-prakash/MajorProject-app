@@ -1,2 +1,3 @@
 export * from './controllers/entity.controller';
-export * from './controllers/auth.controler';
+export * from './controllers/primaryEntity.controller';
+export * from './controllers/auth.controller';

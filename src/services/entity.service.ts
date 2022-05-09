@@ -1,6 +1,7 @@
 import { Entity, EntityType, IEntity } from "../models/entity.model";
 import { exec } from 'child_process';
 import { writeFile } from 'fs';
+import { PrimaryEntity } from "../models/primaryEntity.model";
 
 export function getEntityBasedOnParent(parent: string, user: string){
     return Entity.find({
@@ -19,17 +20,21 @@ export function createEntityFolder(parent: string, child: string, user: string){
 }
 
 export async function createEntityFile(file: string, parent: string, name: string, user: string){
-    let entityCreationTask = await Entity.create({
+    let entities = await Entity.create({
         parent: parent,
         name: name,
         file: file,
         type: EntityType.FILE,
         user: user
     });
+
+    let primaryEntities = await PrimaryEntity.find({
+        user: user
+    }).populate('entity').exec();
         
-    let fileWriteTask = await new Promise((res, rej)=>{
+    let entityFileWriteTask = await new Promise((res, rej)=>{
         try {
-            writeFile('modules/file.json', JSON.stringify(entityCreationTask), function(err){
+            writeFile('modules/entity.json', JSON.stringify(entities), function(err){
                 if(err)
                     rej(err);
                 res('completed');
@@ -39,7 +44,19 @@ export async function createEntityFile(file: string, parent: string, name: strin
         }
     });
 
-    exec("node run.js", function(error, stdout, stderr){
+    let primaryEntityFileWriteTask = await new Promise((res, rej)=>{
+        try {
+            writeFile('modules/primaryEntity.json', JSON.stringify(primaryEntities), function(err){
+                if(err)
+                    rej(err);
+                res('completed');
+            });
+        } catch (error) {
+            rej(error);
+        }
+    });
+
+    exec("cd modules && sudo bash run.sh", function(error, stdout, stderr){
         console.log(error, stdout, stderr);
     });
     

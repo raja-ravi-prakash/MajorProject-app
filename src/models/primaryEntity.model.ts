@@ -9,7 +9,7 @@ export interface IPrimaryEntity extends Document {
 
 export const PrimaryEntitySchema = new Schema({
     entity: { type: Schema.Types.ObjectId, ref: 'Entity', require: true },
-    user: { type: Schema.Types.ObjectId, ref: 'User', require: true }
+    user: { type: String }
 });
 
 export const PrimaryEntity: Model<IPrimaryEntity> = model<IPrimaryEntity>('PrimaryEntity', PrimaryEntitySchema);

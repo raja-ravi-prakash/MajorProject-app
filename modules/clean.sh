@@ -1,2 +1,5 @@
 rm image.jpg
-rm -fr faces
+rm -f entity.json
+rm -f compareFaces/primaryEntity.json
+rm entityid
+rm -fr compareFaces/faces
