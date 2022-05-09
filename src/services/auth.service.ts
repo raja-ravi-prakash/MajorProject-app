@@ -4,6 +4,7 @@ import { Session } from "../models/session.model";
 import config from '../../config';
 import { CryptoHelper } from "../../crypto";
 import { Entity, EntityType } from "../models/entity.model";
+import * as mongoose from 'mongoose';
 
 export function createUser(username: string, password: string, name: string, email: string){
     return Promise.all([
@@ -14,7 +15,7 @@ export function createUser(username: string, password: string, name: string, ema
             email: email
         }),
         Entity.create({
-            parent: "C15-BACKEND",
+            parent: "C-15 BACKEND",
             name: "~$",
             type: EntityType.FOLDER,
             user: username
