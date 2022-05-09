@@ -15,7 +15,7 @@ export interface IEntity extends Document{
 const EntitySchema = new Schema({
     type: { type: EntityType, require: true },
     name: { type: String, require: true },
-    parent: { type: Schema.Types.ObjectId, require: true, ref: 'Entity' },
+    parent: { type:String , require: true },
     file: { type: String, require: true },
     user: { type: String, require: true }
 });
