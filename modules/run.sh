@@ -1,3 +1,4 @@
 export PATH="/home/ronin/anaconda3/bin:$PATH"
 source activate vnv
-# python createImage/app.py 
+python app.py
+# bash clean.sh

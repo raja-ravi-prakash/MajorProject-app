@@ -4,3 +4,4 @@ opencv-python
 opencv-python-headless
 deepface
 python-dotenv
+pymongo

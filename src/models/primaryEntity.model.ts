@@ -1,14 +1,13 @@
 import { Schema, Document, Model, model, Types } from "mongoose";
-import { IEntity } from './entity.model';
 
 export interface IPrimaryEntity extends Document {
     _id: string,
-    entity: string,
+    file: string,
     user: string
 }
 
 export const PrimaryEntitySchema = new Schema({
-    entity: { type: Schema.Types.ObjectId, ref: 'Entity', require: true },
+    file: { type: String },
     user: { type: String }
 });
 

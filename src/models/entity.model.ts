@@ -9,7 +9,8 @@ export interface IEntity extends Document{
     type: EntityType,
     name: string,
     parent: string,
-    user: string
+    user: string,
+    primaryEntity: string[]
 }
 
 const EntitySchema = new Schema({
@@ -17,7 +18,8 @@ const EntitySchema = new Schema({
     name: { type: String, require: true },
     parent: { type: Schema.Types.ObjectId, require: true, ref: 'Entity' },
     file: { type: String, require: true },
-    user: { type: String, require: true }
+    user: { type: String, require: true },
+    primaryEntity: [{ type: Schema.Types.ObjectId }]
 });
 
 export const Entity: Model<IEntity> = model<IEntity>('Entity', EntitySchema);

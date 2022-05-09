@@ -31,7 +31,7 @@ export async function createEntityFile(file: string, parent: string, name: strin
     let primaryEntities = await PrimaryEntity.find({
         user: user
     }).populate('entity').exec();
-        
+    
     let entityFileWriteTask = await new Promise((res, rej)=>{
         try {
             writeFile('modules/entity.json', JSON.stringify(entities), function(err){

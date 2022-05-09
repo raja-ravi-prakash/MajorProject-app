@@ -1,7 +1,8 @@
 import urllib.request
 import json
 import os
-
+import base64
+from deepface import DeepFace
 import cv2
 
 def createFile(dataUri, path):
@@ -43,10 +44,64 @@ os.mkdir('assets/faces')
 
 mainEntityFile = createFile(entity['file'], 'assets/entity.jpg')
 primaryEntities = []
-for i, index in primaryEntity:
-    primaryEntities.append(createFile(i['file'], "assets/primary/"+index+"primary.jpg"))
+index=0
+for i in primaryEntity:
+    tempPath = createFile(i['file'], "assets/primary/" + str(index) + "primary.jpg")
+    primaryEntities.append({
+        "_id": i['_id'],
+        "path": tempPath 
+    })
+    index+=1
 
 
 entities = createFaces('assets/entity.jpg')
 
-print(entities, primaryEntities)
+foundedPrimaryEntities = []
+newPrimaryEntities = []
+global isFaceFound
+isFaceFound = False
+for i in entities:
+    isFaceFound = False
+    for j in primaryEntities:
+        result = DeepFace.verify(img1_path = i, img2_path = j['path'])
+        isFaceFound = result['verified']
+        if(isFaceFound):
+            foundedPrimaryEntities.append(j['_id'])
+            break
+    if(isFaceFound==False):
+        newPrimaryEntities.append(i)
+
+def toDataUri(filename):
+    ext = filename.split('.')[-1]
+    prefix = f'data:image/{ext};base64,'
+    with open(filename, 'rb') as f:
+        img = f.read()
+    return prefix + base64.b64encode(img).decode('utf-8')
+
+newPrimaryEntities = [toDataUri(i) for i in newPrimaryEntities]
+
+def getDatabase():
+    from pymongo import MongoClient
+
+    from pymongo import MongoClient
+    client = MongoClient('localhost', 27017)
+
+    return client['c15-major-project']
+
+db = getDatabase()
+if(len(newPrimaryEntities)):
+    result = db['primaryentities'].insert_many([{
+        'user': entity['user'],
+        'file': i
+    } for i in newPrimaryEntities])
+    for j in result.inserted_ids:
+        foundedPrimaryEntities.append(j)
+
+from bson.objectid import ObjectId
+db['entities'].update_one({
+    '_id': ObjectId(entity['_id']),
+}, {
+    '$set': {
+        'primaryEntity': [ObjectId(i) for i in foundedPrimaryEntities]
+    }
+})
