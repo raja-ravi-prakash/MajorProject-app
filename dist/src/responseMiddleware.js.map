@@ -1,0 +1,1 @@
+{"version":3,"file":"responseMiddleware.js","sourceRoot":"","sources":["../../src/responseMiddleware.ts"],"names":[],"mappings":";;;AASa,QAAA,kBAAkB,GAAG,CAAC,GAAa,EAAE,OAAgB,EAAE,OAAe,EAAE,KAAc,EAAE,IAAS,EAAE,EAAE;IAC9G,OAAO,GAAG,CAAC,IAAI,CAAC;QACZ,OAAO,EAAE,OAAO;QAChB,OAAO,EAAE,OAAO;QAChB,KAAK,EAAE,MAAM,CAAC,KAAK,CAAC;QACpB,IAAI,EAAE,IAAI;KACb,CAAC,CAAC;AACP,CAAC,CAAA"}
