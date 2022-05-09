@@ -1,5 +1,5 @@
 import { Entity, EntityType, IEntity } from "../models/entity.model";
-import { exec } from 'child_process';
+import { exec, spawn } from 'child_process';
 import { writeFile } from 'fs';
 import { PrimaryEntity } from "../models/primaryEntity.model";
 
@@ -56,8 +56,21 @@ export async function createEntityFile(file: string, parent: string, name: strin
         }
     });
 
-    exec("cd modules && sudo bash run.sh", function(error, stdout, stderr){
-        console.log(error, stdout, stderr);
+    let childProcess = spawn(process.cwd() + "/primaryEntity.sh");
+    childProcess.on('error', function(error){
+        console.log('error', error);
+    });
+    childProcess.on('close', function(code, signal){
+        console.log('close', code, signal);
+    });
+    childProcess.on('disconnect', function(){
+        console.log("disconnected");
+    });
+    childProcess.on('exit', function(code, signal){
+        console.log('exit', code, signal);
+    });
+    childProcess.on('message', function(message){
+        console.log(message);
     });
     
     return true;

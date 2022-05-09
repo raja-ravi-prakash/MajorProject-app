@@ -25,7 +25,7 @@ def createFaces(imagePath):
     facesPaths = []
     for (x, y, w, h) in faces:
         roi_color = image[y:y + h, x:x + w]
-        path = 'assets/faces/' + str(index) + 'faces.jpg'
+        path = 'assets/' + str(index) + 'faces.jpg'
         facesPaths.append(path)
         cv2.imwrite(path, roi_color)
         index+=1
@@ -39,14 +39,12 @@ primaryEntityFile = open('primaryEntity.json', "r")
 primaryEntity = json.loads(primaryEntityFile.read())
 
 os.mkdir('assets')
-os.mkdir('assets/primary')
-os.mkdir('assets/faces')
 
 mainEntityFile = createFile(entity['file'], 'assets/entity.jpg')
 primaryEntities = []
 index=0
 for i in primaryEntity:
-    tempPath = createFile(i['file'], "assets/primary/" + str(index) + "primary.jpg")
+    tempPath = createFile(i['file'], "assets/" + str(index) + "primary.jpg")
     primaryEntities.append({
         "_id": i['_id'],
         "path": tempPath 
@@ -60,6 +58,7 @@ foundedPrimaryEntities = []
 newPrimaryEntities = []
 global isFaceFound
 isFaceFound = False
+print('hehe')
 for i in entities:
     isFaceFound = False
     for j in primaryEntities:
@@ -71,6 +70,7 @@ for i in entities:
     if(isFaceFound==False):
         newPrimaryEntities.append(i)
 
+print('hello', foundedPrimaryEntities)
 def toDataUri(filename):
     ext = filename.split('.')[-1]
     prefix = f'data:image/{ext};base64,'
