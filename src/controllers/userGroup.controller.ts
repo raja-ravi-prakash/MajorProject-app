@@ -11,7 +11,6 @@ export class UserGroupController {
         try {
             const user = req.headers['username'] as string
             const userGroup = {...req.body, ...{createdBy: user}}
-            // console.log(userGroup)
             const data = await createUserGroup(userGroup);
             return responseMiddleware(res, true, "Entity Search Completed", false, data);
         } catch (error) {
@@ -25,7 +24,6 @@ export class UserGroupController {
             const data = await updateUserGroup(req.body);
             return responseMiddleware(res, true, "Entity Search Completed", false, data);
         } catch (error) {
-            console.log(error)
             return responseMiddleware(res, false, "Entity Request Failed!", true, error);
         }
     }
@@ -36,7 +34,6 @@ export class UserGroupController {
             const data = await getAllUserGroups();
             return responseMiddleware(res, true, "Entity Search Completed", false, data);
         } catch (error) {
-            console.log(error)
             return responseMiddleware(res, false, "Entity Request Failed!", true, error);
         }
     }

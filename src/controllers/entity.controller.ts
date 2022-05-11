@@ -1,7 +1,7 @@
 import { Controller, Delete, Get, Post, Put } from "@overnightjs/core";
 import { Request, Response } from "express";
 import { responseMiddleware } from "../responseMiddleware";
-import { getEntityBasedOnParent, createEntityFolder, createEntityFile, deleteEntity } from "../services/entity.service";
+import { getEntityBasedOnParent, createEntityFolder, createEntityFile, deleteEntity, getMyFiles } from "../services/entity.service";
 
 @Controller('entity')
 export class EntityController {
@@ -10,6 +10,16 @@ export class EntityController {
     async getEntities(req: Request, res: Response){
         try {
             let data = await getEntityBasedOnParent(req.body.parent, req.headers['username'] as string);
+            return responseMiddleware(res, true, "Entity Search Completed", false, data);
+        } catch (error) {
+            return responseMiddleware(res, false, "Entity Request Failed!", true, error);
+        }
+    }
+
+    @Post('get-my-files')
+    async getMyFiles(req: Request, res: Response){
+        try {
+            let data = await getMyFiles(req.headers['username'] as string);
             return responseMiddleware(res, true, "Entity Search Completed", false, data);
         } catch (error) {
             return responseMiddleware(res, false, "Entity Request Failed!", true, error);
@@ -29,7 +39,7 @@ export class EntityController {
     @Post('file')
     async createFile(req: Request, res: Response){
         try {
-            let data = await createEntityFile(req.body.file, req.body.parent, req.body.name, req.headers['username'] as string);
+            let data = await createEntityFile(req.body.file, req.body.parent,req.body.userGroups, req.body.name, req.headers['username'] as string);
             return responseMiddleware(res, true, "Entity File Created Successfully", false, data);
         } catch (error) {
             return responseMiddleware(res, false, "Entity Request Failed!", true, error);
