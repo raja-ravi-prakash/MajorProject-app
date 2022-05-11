@@ -1,4 +1,4 @@
-import { Schema, Document, Model, model, Types } from "mongoose"
+import { Schema, Document, Model, model, Types, SchemaTypes } from "mongoose"
 
 export enum EntityType {
     FILE="FILE",
@@ -10,6 +10,7 @@ export interface IEntity extends Document{
     name: string,
     parent: string,
     user: string,
+    userGroups:string[],
     primaryEntity: string[]
 }
 
@@ -19,6 +20,7 @@ const EntitySchema = new Schema({
     parent: { type:String , require: true },
     file: { type: String, require: true },
     user: { type: String, require: true },
+    userGroups:[{type:SchemaTypes.ObjectId, ref:'UserGroup'}],
     primaryEntity: [{ type: Schema.Types.ObjectId, ref: 'PrimaryEntity' }]
 });
 
