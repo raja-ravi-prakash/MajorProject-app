@@ -19,7 +19,7 @@ const EntitySchema = new Schema({
     parent: { type:String , require: true },
     file: { type: String, require: true },
     user: { type: String, require: true },
-    primaryEntity: [{ type: Schema.Types.ObjectId }]
+    primaryEntity: [{ type: Schema.Types.ObjectId, ref: 'PrimaryEntity' }]
 });
 
 export const Entity: Model<IEntity> = model<IEntity>('Entity', EntitySchema);
