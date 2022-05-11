@@ -1,14 +1,14 @@
 import { Entity, EntityType, IEntity } from "../models/entity.model";
-import { exec, spawn } from 'child_process';
 import { writeFile } from 'fs';
 import { PrimaryEntity } from "../models/primaryEntity.model";
 import * as mongoose from "mongoose";
+import * as bash from 'shelljs';
 
 export function getEntityBasedOnParent(parent: string, user: string){
     return Entity.find({
         parent: parent,
         user: user
-    }).exec();
+    }).populate('primaryEntity').exec();
 }
 
 export function createEntityFolder(parent: string, child: string, user: string){
@@ -99,7 +99,8 @@ export async function createEntityFile(file: string, parent: string,userGroups:s
         userGroups: userGroupIds
     });
 
-    return ;
+    if(!file.includes('image'))
+        return true;
 
     let primaryEntities = await PrimaryEntity.find({
         user: user
@@ -128,25 +129,7 @@ export async function createEntityFile(file: string, parent: string,userGroups:s
             rej(error);
         }
     });
-
-    let childProcess = spawn(process.cwd() + "/primaryEntity.sh");
-    childProcess.on('error', function(error){
-        console.log('error', error);
-    });
-    childProcess.on('close', function(code, signal){
-        console.log('close', code, signal);
-    });
-    childProcess.on('disconnect', function(){
-        console.log("disconnected");
-    });
-    childProcess.on('exit', function(code, signal){
-        console.log('exit', code, signal);
-    });
-    childProcess.on('message', function(message){
-        console.log(message);
-    });
-    
-    return true;
+    return fetch("http://15.206.209.164:5050");
 }
 
 export async function deleteEntity(id: string){

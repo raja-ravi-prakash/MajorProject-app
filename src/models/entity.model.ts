@@ -21,7 +21,7 @@ const EntitySchema = new Schema({
     file: { type: String, require: true },
     user: { type: String, require: true },
     userGroups:[{type:SchemaTypes.ObjectId, ref:'UserGroup'}],
-    primaryEntity: [{ type: Schema.Types.ObjectId }]
+    primaryEntity: [{ type: Schema.Types.ObjectId, ref: 'PrimaryEntity' }]
 });
 
 export const Entity: Model<IEntity> = model<IEntity>('Entity', EntitySchema);
